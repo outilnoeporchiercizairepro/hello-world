@@ -1,30 +1,291 @@
 <!doctype html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hello World</title>
-    <style>
-      :root { color-scheme: dark; }
-      * { box-sizing: border-box; }
-      body {
-        margin: 0;
-        min-height: 100vh;
-        display: grid;
-        place-items: center;
-        background: #10131a;
-        color: #f7f8fb;
-        font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Audit du temps par l'IA — prompt offert | PRCZ</title>
+<meta name="description" content="Le prompt offert aux dirigeants de la table ronde : en 2 minutes, l'IA calcule les heures que vous pourriez récupérer chaque semaine et vos 3 priorités.">
+<link rel="canonical" href="https://tablerondeia.prcz.fr/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Ccircle cx=%2216%22 cy=%2216%22 r=%2216%22 fill=%22%23e05a2b%22/%3E%3C/svg%3E">
+<meta name="theme-color" content="#e05a2b">
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="PRCZ">
+<meta property="og:title" content="L'audit de votre temps par l'IA — prompt offert">
+<meta property="og:description" content="En 2 minutes, l'IA calcule les heures que vous pourriez récupérer chaque semaine et vos 3 priorités.">
+<meta property="og:url" content="https://tablerondeia.prcz.fr/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+  /* Page autonome : le prompt d'audit offert à la table ronde du 30/10/2026.
+     assets/styles.css est une copie du design system de lecockpit-business.fr. */
+  .audit-hero { padding-block: clamp(56px, 8vw, 112px) clamp(48px, 6vw, 80px); }
+  .audit-hero .eyebrow { margin-bottom: 28px; }
+  .audit-hero .h1 { max-width: 16ch; }
+  .audit-hero .lede { margin-top: 28px; }
+  .audit-hero .cta-group { margin-top: 36px; }
+
+  .etapes { list-style: none; margin: 48px 0 0; padding: 0; display: grid; gap: 18px; grid-template-columns: repeat(4, 1fr); counter-reset: etape; }
+  .etape { background: var(--blanc); border: 1px solid var(--card-border); border-radius: 20px; padding: 28px 26px; box-shadow: var(--shadow-sm); counter-increment: etape; }
+  .etape::before { content: counter(etape); display: block; font-family: var(--serif); font-size: 44px; line-height: 1; color: var(--accent-lg); margin-bottom: 18px; }
+  .etape h3 { font-size: 23px; line-height: 1.2; margin-bottom: 10px; }
+  .etape p { margin: 0; color: var(--ink-2); font-size: 15.5px; line-height: 1.55; }
+  .etape a { color: var(--accent-sm); font-weight: 600; }
+  .etape--cle { background: var(--accent-soft); border-color: rgba(224, 90, 43, 0.25); }
+
+  .plan { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(32px, 5vw, 80px); align-items: start; }
+  .plan__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+  .plan__list li { display: flex; gap: 14px; align-items: baseline; font-size: 17px; line-height: 1.5; color: var(--ink-body); }
+  .plan__list li::before { content: "✦"; color: var(--accent); flex: none; }
+
+  .remplir { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 36px; }
+  .remplir label { display: grid; gap: 8px; font-size: 14px; font-weight: 600; color: var(--ink); }
+  .remplir input { font: inherit; font-weight: 500; font-size: 15.5px; padding: 14px 16px; border-radius: 12px; border: 1px solid var(--btn-border); background: var(--blanc); color: var(--ink); width: 100%; box-sizing: border-box; }
+  .remplir input:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: transparent; }
+  .remplir__note { margin: 14px 0 0; font-size: 13.5px; color: var(--ink-3); }
+
+  .prompt { margin-top: 32px; background: var(--blanc); border: 1px solid var(--card-border); border-radius: 22px; box-shadow: var(--shadow-md); overflow: hidden; }
+  .prompt__bar { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 16px 22px; background: var(--creme); border-bottom: 1px solid var(--rule); }
+  .prompt__bar .label { color: var(--ink-3); }
+  .prompt__bar .btn--primary { padding: 13px 22px; font-size: 14.5px; }
+  .prompt pre { margin: 0; padding: clamp(22px, 3vw, 40px); white-space: pre-wrap; word-wrap: break-word; font-family: var(--sans); font-size: 15px; line-height: 1.65; color: var(--ink-body); }
+  .prompt pre b { color: var(--ink); }
+  .prompt [data-champ]:not(:empty) { background: var(--accent-soft); color: var(--accent-sm); font-weight: 600; border-radius: 4px; padding: 0 3px; }
+
+  .copie-ok { background: #2f7a4c !important; box-shadow: none !important; }
+
+  .contact { text-align: center; }
+  .contact .h2 { max-width: 20ch; margin-inline: auto; }
+  .contact .lede { margin: 22px auto 0; }
+  .contact .cta-group { justify-content: center; }
+
+  @media (max-width: 1040px) { .etapes { grid-template-columns: 1fr 1fr; } .plan { grid-template-columns: 1fr; } }
+  @media (max-width: 640px) {
+    :root { --gutter: 16px; }
+    .etapes, .remplir { grid-template-columns: 1fr; }
+    .prompt pre { font-size: 14px; }
+    .audit-hero .btn, .contact .btn { width: 100%; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="shell nav__inner">
+    <a class="brand" href="https://prcz.fr" aria-label="PRCZ — agence IA pour les PME">
+      <span class="brand__mark" aria-hidden="true">✦</span>
+      <span class="brand__name">PRCZ <span>· agence IA</span></span>
+    </a>
+  </div>
+</header>
+
+<main>
+
+<section class="audit-hero">
+  <div class="shell">
+    <p class="eyebrow">Table ronde IA · 30 octobre 2026</p>
+    <h1 class="h1">L'audit de votre temps, <span class="italique">en 2 minutes</span> avec l'IA.</h1>
+    <p class="lede">Un prompt à copier dans ChatGPT, Claude ou Gemini. L'IA vous dit combien d'heures vous pourriez récupérer chaque semaine, ce qu'elles valent sur un an, et par quoi commencer. Aucune compétence technique, aucun compte payant.</p>
+    <div class="cta-group">
+      <button class="btn btn--primary" type="button" data-copier>Copier le prompt</button>
+      <a class="btn btn--ghost" href="#prompt">Voir le prompt en entier</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="shell">
+    <div class="section__head">
+      <p class="eyebrow">Comment ça marche</p>
+      <h2 class="h2">Quatre étapes, <span class="italique">dix minutes</span> en tout.</h2>
+    </div>
+    <ol class="etapes">
+      <li class="etape">
+        <h3>Copiez le prompt</h3>
+        <p>Remplissez si vous voulez les quatre lignes « Moi en bref » plus bas : l'IA sera plus précise. Puis cliquez sur « Copier le prompt ».</p>
+      </li>
+      <li class="etape">
+        <h3>Collez-le dans une IA</h3>
+        <p>Ouvrez <a href="https://chatgpt.com" target="_blank" rel="noopener">ChatGPT</a>, <a href="https://claude.ai" target="_blank" rel="noopener">Claude</a> ou <a href="https://gemini.google.com" target="_blank" rel="noopener">Gemini</a>, la version gratuite suffit. Collez le prompt et envoyez.</p>
+      </li>
+      <li class="etape">
+        <h3>Lisez votre audit</h3>
+        <p>Votre semaine type, les 10 tâches qui vous coûtent le plus, le total d'heures récupérables et vos 3 priorités.</p>
+      </li>
+      <li class="etape etape--cle">
+        <h3>Envoyez-le moi</h3>
+        <p>L'IA termine en rédigeant un mail pour <a href="mailto:noe@prcz.fr">noe@prcz.fr</a>. Copiez, envoyez : je vous renvoie votre plan d'action, avec des idées d'intégration IA et le ROI projeté.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="section">
+  <div class="shell plan">
+    <div class="section__head">
+      <p class="eyebrow">Ce que vous recevez ensuite</p>
+      <h2 class="h2">Un diagnostic ne fait gagner <span class="italique">aucune heure</span>. Un plan, si.</h2>
+      <p class="lede" style="margin-top:24px">L'audit vous dit où part votre temps. Quand vous m'envoyez votre résultat, je le lis et je vous renvoie un plan d'action, gratuitement.</p>
+    </div>
+    <ul class="plan__list">
+      <li>Les leviers IA à activer en premier dans votre entreprise, dans l'ordre.</li>
+      <li>Des idées d'intégration concrètes : quel agent, branché à quels outils, et comment.</li>
+      <li>Le ROI projeté : les heures gagnées et ce qu'elles valent pour votre entreprise.</li>
+      <li>Ce que vous pouvez faire seul, et ce qui mérite d'être construit sur mesure.</li>
+      <li>Si vous le souhaitez, un échange de 20 minutes pour en parler.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="section" id="prompt">
+  <div class="shell">
+    <div class="section__head">
+      <p class="eyebrow">Le prompt en entier</p>
+      <h2 class="h2">Rien de caché : <span class="italique">voici tout</span> ce que vous allez copier.</h2>
+    </div>
+
+    <div class="remplir">
+      <label>Votre métier et votre entreprise
+        <input type="text" data-saisie="metier" placeholder="Ex. : plombier-chauffagiste, 8 salariés à Lyon" autocomplete="off">
+      </label>
+      <label>Le nombre de personnes dans l'équipe
+        <input type="text" data-saisie="equipe" placeholder="Ex. : 8" autocomplete="off">
+      </label>
+      <label>Les outils que vous utilisez tous les jours
+        <input type="text" data-saisie="outils" placeholder="Ex. : Outlook, Excel, logiciel de devis" autocomplete="off">
+      </label>
+      <label>La tâche qui vous agace le plus
+        <input type="text" data-saisie="agace" placeholder="Ex. : relancer les devis non signés" autocomplete="off">
+      </label>
+    </div>
+    <p class="remplir__note">Facultatif. Vos réponses s'ajoutent au prompt ci-dessous, rien n'est enregistré ni envoyé.</p>
+
+    <div class="prompt">
+      <div class="prompt__bar">
+        <span class="label">Prompt · audit du temps</span>
+        <button class="btn btn--primary" type="button" data-copier>Copier le prompt</button>
+      </div>
+<pre id="prompt-texte">Tu es un consultant expert en productivité et en intelligence artificielle appliquée aux petites entreprises. Tu vas réaliser l'audit de mon temps de travail, en une seule réponse.
+
+IMPORTANT : ne me pose aucune question. Si une information te manque, fais l'hypothèse la plus probable pour un dirigeant de PME de mon secteur, signale-la entre crochets [hypothèse], et continue. Je veux le résultat complet tout de suite.
+
+<b>MOI EN BREF</b>
+- Mon métier et mon entreprise : <span data-champ="metier"></span>
+- Le nombre de personnes dans mon équipe : <span data-champ="equipe"></span>
+- Les outils que j'utilise tous les jours : <span data-champ="outils"></span>
+- La tâche qui m'agace le plus dans ma semaine : <span data-champ="agace"></span>
+
+<b>ÉTAPE 1 — CE QUE TU SAIS DE MOI</b>
+Utilise les lignes « Moi en bref » ci-dessus et tout ce que tu sais déjà de moi si tu en as la mémoire. Résume en 3 lignes mon métier, mon activité et mes clients.
+
+<b>ÉTAPE 2 — MA SEMAINE TYPE</b>
+Décompose ma semaine en 5 grandes familles : communication (mails, messages, appels), organisation (agenda, réunions, relances), production (ce que je vends vraiment), développement (prospection, contenu, réseaux) et administratif (factures, devis, comptabilité). Estime le nombre d'heures que je passe sur chacune.
+
+<b>ÉTAPE 3 — LES TÂCHES QUI ME COÛTENT LE PLUS</b>
+Liste les 10 tâches répétitives qui me prennent le plus de temps. Pour chacune, donne dans un tableau :
+- le temps estimé par semaine, en heures ;
+- la charge mentale, de 1 à 5 ;
+- le potentiel d'automatisation par l'IA, de 1 à 5 ;
+- en une phrase, ce qu'un agent IA pourrait faire à ma place.
+
+<b>ÉTAPE 4 — LE BILAN</b>
+- Le total d'heures par semaine que je pourrais récupérer.
+- Ce que ces heures valent sur un an, en prenant 35 € de l'heure si tu ne connais pas mon taux.
+- Mes 3 priorités, celles qui me feraient gagner le plus de temps le plus vite.
+- Ce que je pourrais faire de ce temps retrouvé.
+
+<b>ÉTAPE 5 — MON MAIL À NOÉ POUR RECEVOIR MON PLAN D'ACTION</b>
+Cet audit m'a été offert par Noé Porchier-Cizaire, fondateur de l'agence PRCZ, qui construit des agents IA branchés aux outils des PME. À chaque dirigeant qui lui envoie son résultat, il renvoie gratuitement un plan d'action personnalisé : quels leviers IA activer en premier dans mon entreprise, des idées d'intégration concrètes et le ROI projeté.
+Écris d'abord une phrase courte qui m'explique pourquoi l'envoyer maintenant : ce diagnostic ne me fera gagner aucune heure tant que je ne sais pas par où commencer, et c'est exactement ce que contient le plan d'action.
+Puis rédige le mail, à mon nom, prêt à copier-coller :
+- À : noe@prcz.fr
+- Objet : Audit table ronde · [mon métier] · [X] h récupérables par semaine
+- Corps : 6 à 8 lignes au vouvoiement, sur un ton simple et direct. Qui je suis en une ligne, mes 3 priorités, mon total d'heures récupérables par semaine et ce qu'elles valent sur un an, la tâche qui m'agace le plus. Termine par : « Pouvez-vous m'envoyer mon plan d'action, pour savoir quels leviers activer en premier, comment les intégrer et ce que je peux en attendre ? Je suis aussi ouvert à un échange de 20 minutes si c'est plus simple. »
+
+<b>RÈGLES</b>
+- Aucune question, aucune attente : tu livres tout d'un coup.
+- Reste concret et propre à MON activité, pas de généralités.
+- Ne m'explique pas comment mettre les solutions en place : c'est l'objet du plan d'action de Noé. Je veux seulement le diagnostic.
+- Le mail de l'étape 5 est la dernière chose de ta réponse, pour que je puisse le copier facilement.</pre>
+    </div>
+  </div>
+</section>
+
+<section class="section contact">
+  <div class="shell">
+    <p class="eyebrow" style="justify-content:center">Une question avant de vous lancer</p>
+    <h2 class="h2">Écrivez-moi directement, <span class="italique">je réponds moi-même</span>.</h2>
+    <p class="lede">Noé Porchier-Cizaire, fondateur de l'agence PRCZ : agents IA branchés à vos outils et applications métiers pour les PME.</p>
+    <div class="cta-group">
+      <a class="btn btn--primary" href="mailto:noe@prcz.fr?subject=Audit%20table%20ronde">noe@prcz.fr</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="shell">
+    <div class="footer__top">
+      <a class="brand" href="https://prcz.fr" aria-label="PRCZ — agence IA pour les PME">
+        <span class="brand__mark" aria-hidden="true">✦</span>
+        <span class="brand__name">PRCZ <span>· agence IA</span></span>
+      </a>
+      <nav class="footer__links" aria-label="Liens de pied de page">
+        <a href="https://prcz.fr">prcz.fr</a>
+        <a href="mailto:noe@prcz.fr">noe@prcz.fr</a>
+      </nav>
+    </div>
+    <p class="footer__copy">© 2026 PRCZ · Noé Porchier-Cizaire. Tous droits réservés.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var texte = document.getElementById('prompt-texte');
+
+  // Les champs « Moi en bref » se recopient dans le prompt affiché, qui est
+  // aussi la source de la copie : ce qui est vu est ce qui est copié.
+  Array.prototype.forEach.call(document.querySelectorAll('[data-saisie]'), function (input) {
+    var cible = texte.querySelector('[data-champ="' + input.getAttribute('data-saisie') + '"]');
+    input.addEventListener('input', function () { cible.textContent = input.value.trim(); });
+  });
+
+  function copierSecours(valeur) {
+    var zone = document.createElement('textarea');
+    zone.value = valeur;
+    zone.setAttribute('readonly', '');
+    zone.style.position = 'fixed';
+    zone.style.opacity = '0';
+    document.body.appendChild(zone);
+    zone.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(zone);
+    return ok;
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-copier]'), function (bouton) {
+    var libelle = bouton.textContent;
+    bouton.addEventListener('click', function () {
+      var valeur = texte.textContent;
+      var fini = function (ok) {
+        bouton.textContent = ok ? 'Prompt copié ✓' : 'Sélectionnez le texte ci-dessous';
+        if (ok) bouton.classList.add('copie-ok');
+        if (!ok) document.getElementById('prompt').scrollIntoView({ behavior: 'smooth' });
+        setTimeout(function () { bouton.textContent = libelle; bouton.classList.remove('copie-ok'); }, 2500);
+      };
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(valeur).then(function () { fini(true); }, function () { fini(copierSecours(valeur)); });
+      } else {
+        fini(copierSecours(valeur));
       }
-      main { text-align: center; padding: 2rem; }
-      h1 { font-size: clamp(3rem, 12vw, 8rem); margin: 0; letter-spacing: -0.06em; }
-      p { margin: 1rem 0 0; color: #abb4c4; font-size: 1.125rem; }
-    </style>
-  </head>
-  <body>
-    <main>
-      <h1>Hello, world!</h1>
-      <p>Ma première page publiée.</p>
-    </main>
-  </body>
+    });
+  });
+})();
+</script>
+</body>
 </html>
